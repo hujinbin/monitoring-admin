@@ -40,72 +40,72 @@ export default defineComponent({
 });
 </script>
 <style lang="less" scoped>
-@mixin th {
-    width: 130px;
-    line-height: 30px;
-    border-radius: 5px;
-    margin: 10px auto;
-    cursor: pointer;
-    font-size: 14px;
-}
-.set-box {
-    position: fixed;
-    top: 50%;
-    right: -165px;
-    transform: translate(0, -50%);
-    z-index: 999999999;
-    display: flex;
-    align-items: center;
-    text-align: center;
-    transition: 0.5s;
-    cursor: pointer;
-    .set-svg {
-        width: 60px;
-        height: 60px;
-        border-radius: 10px;
-    }
-    .set-item {
-        padding: 15px;
-        background: #dedede;
-        border-radius: 5px;
-        margin-left: 10px;
-    }
-    .set-th-title {
-        font-size: 16px;
-        text-align: center;
-        padding: 5px;
-        border-radius: 20px;
-        width: 130px;
-        line-height: 30px;
-    }
-    .th-1 {
-        background: #304156;
-        color: #fff;
-        @include th;
-    }
-    .th-2 {
-        background: #409eff;
-        color: #fff;
-        @include th;
-    }
-    .th-3 {
-        background: #a16bfe;
-        color: #f7b765;
-        @include th;
-    }
-    .th-more {
-        font-size: 14px;
-        cursor: pointer;
-        padding-bottom: 5px;
-    }
-    .cancat-btn{
-        line-height: 30px;
-        margin-top: 10px;
-        font-weight: 600;
-        font-size: 14px;
-    }
-}
-.set-box:hover{
-    right: 10px;
-}
+// @mixin th {
+//     width: 130px;
+//     line-height: 30px;
+//     border-radius: 5px;
+//     margin: 10px auto;
+//     cursor: pointer;
+//     font-size: 14px;
+// }
+// .set-box {
+//     position: fixed;
+//     top: 50%;
+//     right: -165px;
+//     transform: translate(0, -50%);
+//     z-index: 999999999;
+//     display: flex;
+//     align-items: center;
+//     text-align: center;
+//     transition: 0.5s;
+//     cursor: pointer;
+//     .set-svg {
+//         width: 60px;
+//         height: 60px;
+//         border-radius: 10px;
+//     }
+//     .set-item {
+//         padding: 15px;
+//         background: #dedede;
+//         border-radius: 5px;
+//         margin-left: 10px;
+//     }
+//     .set-th-title {
+//         font-size: 16px;
+//         text-align: center;
+//         padding: 5px;
+//         border-radius: 20px;
+//         width: 130px;
+//         line-height: 30px;
+//     }
+//     .th-1 {
+//         background: #304156;
+//         color: #fff;
+//         @include th;
+//     }
+//     .th-2 {
+//         background: #409eff;
+//         color: #fff;
+//         @include th;
+//     }
+//     .th-3 {
+//         background: #a16bfe;
+//         color: #f7b765;
+//         @include th;
+//     }
+//     .th-more {
+//         font-size: 14px;
+//         cursor: pointer;
+//         padding-bottom: 5px;
+//     }
+//     .cancat-btn{
+//         line-height: 30px;
+//         margin-top: 10px;
+//         font-weight: 600;
+//         font-size: 14px;
+//     }
+// }
+// .set-box:hover{
+//     right: 10px;
+// }
 </style>

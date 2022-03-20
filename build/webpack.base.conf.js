@@ -78,12 +78,11 @@ module.exports = {
         generator: {
           filename: utils.assetsPath('media/[name].[contenthash].[ext]')
         }
-        // loader: 'url-loader',
-        // options: {
-        //   limit: 10000,
-        //   name: utils.assetsPath('media/[name].[contenthash:7].[ext]')
-        // }
       },
+      // {
+      //   test: /\.svg$/,
+      //   loader: 'svg-sprite-loader',
+      // },
       {
         test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
         type: 'asset/resource',
