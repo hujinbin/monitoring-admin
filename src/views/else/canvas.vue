@@ -62,7 +62,7 @@ export default defineComponent({
     },
 });
 </script>
-<style scoped lang="scss">
+<style scoped lang="less">
 #canvas {
     text-align: center;
     .canvas-title {

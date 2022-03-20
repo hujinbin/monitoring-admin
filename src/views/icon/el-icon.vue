@@ -18,7 +18,7 @@ export default defineComponent({
     setup() {},
 });
 </script>
-<style scoped lang="scss">
+<style scoped lang="less">
     .icon{
         text-align: center;
         .title{

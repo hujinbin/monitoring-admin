@@ -129,7 +129,7 @@ export default defineComponent({
     components: { UPLOADING ,codeEditor},
 });
 </script>
-<style lang="scss" scoped>
+<style lang="less" scoped>
 .up-load{
     width: 50vw;
     margin: 50px auto;

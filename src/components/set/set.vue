@@ -39,7 +39,7 @@ export default defineComponent({
     },
 });
 </script>
-<style lang="scss" scoped>
+<style lang="less" scoped>
 @mixin th {
     width: 130px;
     line-height: 30px;

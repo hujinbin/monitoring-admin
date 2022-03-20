@@ -26,7 +26,7 @@ export default defineComponent({
     },
 })
 </script>
-<style lang="scss" scoped>
+<style lang="less" scoped>
     .contact-box{
         width: 70vw;
         margin: 0 auto;

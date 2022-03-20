@@ -24,7 +24,7 @@ export default defineComponent({
     },
 });
 </script>
-<style scoped lang="scss">
+<style scoped lang="less">
 .lang {
     text-align: center;
     div {

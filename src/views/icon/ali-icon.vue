@@ -34,7 +34,7 @@ export default defineComponent({
     components:{codeEditor}
 })
 </script>
-<style scoped lang="scss">
+<style scoped lang="less">
     .svg-box{
         text-align: center;
         .title{

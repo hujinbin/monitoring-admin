@@ -15,7 +15,7 @@ export default defineComponent({
     },
 })
 </script>
-<style lang="scss" scoped >
+<style lang="less" scoped >
     .home-box{
         text-align: center;
        .title{

@@ -54,7 +54,7 @@ export default defineComponent({
 })
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="less">
 .title {
     text-align: center;
     font-size: 22px;

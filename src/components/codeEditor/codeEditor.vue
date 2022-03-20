@@ -109,7 +109,7 @@
   })
 </script>
 
-<style lang="scss"> // 此处不可使用"scoped"
+<style lang="less"> // 此处不可使用"scoped"
   .in-coder-panel{
     flex-grow: 1;
     display: flex;

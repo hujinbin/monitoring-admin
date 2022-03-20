@@ -25,7 +25,7 @@ export default defineComponent({
     },
 })
 </script>
-<style lang="scss" scoped>
+<style lang="less" scoped>
 .text-box{
     padding: 30px;
 }

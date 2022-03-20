@@ -2,8 +2,8 @@ import { createApp } from "vue";
 import App from "./App.vue";
 import router from "./router";
 import store from "./store";
-import "./styles/index.scss";
-import "@/styles/color/index.scss";
+import "./styles/index.less";
+import "@/styles/color/index.less";
 import ElementPlus from "element-plus";
 import "element-plus/lib/theme-chalk/index.css";
 // 国际化

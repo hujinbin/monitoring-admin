@@ -96,7 +96,7 @@ export default defineComponent({
     },
 });
 </script>
-<style lang="scss" scoped>
+<style lang="less" scoped>
 .aside__top {
     border-bottom: 1px solid #e5e5e5;
     height: 50px;
