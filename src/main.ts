@@ -10,9 +10,9 @@ import store from "./store";
 // import { createI18n } from "vue-i18n";
 // import messages from "@/utils/language";
 //阿里图标
-import "@/components/svg/svg";
+// import "@/components/svg/svg";
 // import icons from "@/components/svg/svg.vue";
-import 'xe-utils'
+// import 'xe-utils'
 // import VXETable from 'vxe-table'
 // import 'vxe-table/lib/style.css'
 // const i18n = createI18n({

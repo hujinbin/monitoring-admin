@@ -5,6 +5,10 @@ const config = require('../config')
 const vueLoaderConfig = require('./vue-loader.conf')
 const { VueLoaderPlugin } = require('vue-loader')
 
+const AutoImport = require("unplugin-auto-import/webpack");
+const Components = require("unplugin-vue-components/webpack");
+const { ElementPlusResolver } = require("unplugin-vue-components/resolvers");
+
 // const ESLintPlugin = require('eslint-webpack-plugin');
 
 function resolve(dir) {
@@ -24,47 +28,55 @@ function resolve(dir) {
 
 module.exports = {
   mode: process.env.NODE_ENV,
-  context: path.resolve(__dirname, '../'),
+  context: path.resolve(__dirname, "../"),
   entry: {
-    app: './src/main.ts'
+    app: "./src/main.ts",
   },
   output: {
     path: config.build.assetsRoot,
-    filename: '[name].js',
-    publicPath: process.env.NODE_ENV === 'production' ?
-      config.build.assetsPublicPath :
-      config.dev.assetsPublicPath
+    filename: "[name].js",
+    publicPath:
+      process.env.NODE_ENV === "production"
+        ? config.build.assetsPublicPath
+        : config.dev.assetsPublicPath,
   },
   resolve: {
-    extensions: ['.js', '.vue', '.json', '.ts'],
+    extensions: [".js", ".vue", ".json", ".ts"],
     alias: {
-      '@': resolve('src'),
-    }
+      "@": resolve("src"),
+    },
   },
   module: {
     rules: [
       // ...(config.dev.useEslint ? [createLintingRule()] : []),
       {
         test: /\.vue$/,
-        loader: 'vue-loader',
-        options: vueLoaderConfig,
+        loader: "vue-loader",
+        exclude: /node_modules/,
+        options: Object.assign(vueLoaderConfig, {
+          loaders: {
+            ts: "ts-loader",
+            tsx: "babel-loader!ts-loader",
+          },
+        }),
       },
-      // {
-      //   test: /\.js$/,
-      //   loader: 'babel-loader',
-      //   include: [resolve('src'), resolve('test')]
-      // },
       {
-        test: /\.ts$/, 
-        use: 'ts-loader',
-        include: [resolve('src'), resolve('test')]
+        test: /\.tsx?$/,
+        exclude: /node_modules/,
+        use: [
+          "babel-loader",
+          {
+            loader: "ts-loader",
+            options: { appendTsxSuffixTo: [/\.vue$/] },
+          },
+        ],
       },
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
-        type: 'asset/resource',
+        type: "asset/resource",
         generator: {
-          filename: utils.assetsPath('img/[name].[contenthash].[ext]')
-        }
+          filename: utils.assetsPath("img/[name].[contenthash].[ext]"),
+        },
         // loader: 'url-loader',
         // options: {
         //   limit: 10000,
@@ -73,10 +85,10 @@ module.exports = {
       },
       {
         test: /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/,
-        type: 'asset/resource',
+        type: "asset/resource",
         generator: {
-          filename: utils.assetsPath('media/[name].[contenthash].[ext]')
-        }
+          filename: utils.assetsPath("media/[name].[contenthash].[ext]"),
+        },
       },
       // {
       //   test: /\.svg$/,
@@ -84,17 +96,12 @@ module.exports = {
       // },
       {
         test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
-        type: 'asset/resource',
+        type: "asset/resource",
         generator: {
-          filename: utils.assetsPath('fonts/[name].[contenthash].[ext]')
-        }
-        // loader: 'url-loader',
-        // options: {
-        //   limit: 10000,
-        //   name: utils.assetsPath('fonts/[name].[contenthash:7].[ext]')
-        // }
-      }
-    ]
+          filename: utils.assetsPath("fonts/[name].[contenthash].[ext]"),
+        },
+      },
+    ],
   },
   plugins: [
     //   new ESLintPlugin({
@@ -102,13 +109,19 @@ module.exports = {
     //     emitWarning: !config.dev.showEslintErrorsInOverlay
     //   })
     new VueLoaderPlugin(),
+    AutoImport({
+      resolvers: [ElementPlusResolver()],
+    }),
+    Components({
+      resolvers: [ElementPlusResolver()],
+    }),
   ],
   optimization: {
     chunkIds: "named",
     moduleIds: "named",
-    mangleExports: "deterministic"
+    mangleExports: "deterministic",
   },
-  target: ['web', 'es5'],
+  target: ["web", "es5"],
   // node: {
   //   // prevent webpack from injecting useless setImmediate polyfill because Vue
   //   // source contains it (although only uses it if it's native).
@@ -121,4 +134,4 @@ module.exports = {
   //   tls: 'empty',
   //   child_process: 'empty'
   // }
-}
+};
