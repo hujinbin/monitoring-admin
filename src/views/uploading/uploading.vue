@@ -52,7 +52,7 @@ components: { UPLOADING },
 import { defineComponent, ref } from "vue";
 import UPLOADING from "@/components/uploading/uploading.vue";
 import codeEditor from '@/components/codeEditor/codeEditor.vue';
-import { ElLoading ,ElMessage } from "element-plus";
+// import { ElLoading ,ElMessage } from "element-plus";
 export default defineComponent({
     setup() {
         const parent = ref();

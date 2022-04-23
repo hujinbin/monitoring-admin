@@ -32,7 +32,7 @@
 import { defineComponent, reactive } from "vue";
 // @ts-ignore;
 import { canvasEvent } from "@/utils/canvas.ts";
-import { ElLoading, ElMessage } from "element-plus";
+// import { ElLoading, ElMessage } from "element-plus";
 export default defineComponent({
     setup() {
         let state: any = reactive({

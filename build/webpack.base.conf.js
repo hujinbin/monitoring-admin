@@ -5,9 +5,7 @@ const config = require('../config')
 const vueLoaderConfig = require('./vue-loader.conf')
 const { VueLoaderPlugin } = require('vue-loader')
 
-const AutoImport = require("unplugin-auto-import/webpack");
-const Components = require("unplugin-vue-components/webpack");
-const { ElementPlusResolver } = require("unplugin-vue-components/resolvers");
+// const ElementPlus = require("unplugin-element-plus/webpack").default;
 
 // const ESLintPlugin = require('eslint-webpack-plugin');
 
@@ -109,12 +107,7 @@ module.exports = {
     //     emitWarning: !config.dev.showEslintErrorsInOverlay
     //   })
     new VueLoaderPlugin(),
-    AutoImport({
-      resolvers: [ElementPlusResolver()],
-    }),
-    Components({
-      resolvers: [ElementPlusResolver()],
-    }),
+    // ElementPlus(),
   ],
   optimization: {
     chunkIds: "named",
