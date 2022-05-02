@@ -5,13 +5,17 @@ import store from "store/index";
 
 const Layout = () => import("@/layout/index.vue");
 
+
+// 业务路由
+const Login = () => import("@/views/account/login.vue");
+
 // 通用路由表
 // export const constRoutes: Array<RouteRecordRaw> = [
 export const constRoutes = [
   {
     path: "/login",
     name: "login",
-    component: { template: "<div>登录页</div>" },
+    component: Login,
     meta: { title: "登录页", hidden: true },
   },
   {
