@@ -1,22 +1,20 @@
 <template>
-  <router-view/>
-  <SET />
+  <router-view />
 </template>
+
 <script lang="ts">
-import { defineComponent, nextTick, onMounted } from 'vue'
-import SET from "@/components/set/set.vue";
-export default defineComponent({
-  setup(props) {
-    let theme=window.localStorage.getItem("theme");
-    theme&&window.document.documentElement.setAttribute("data-ming",theme);
+// import { onMounted } from "vue";
+// import { useStore } from "store/index";
+
+export default {
+  name: "App",
+  setup() {
+    // onMounted(() => {
+    //   const store = useStore();
+    //   store.dispatch("generateRoutes");
+    // });
   },
-  components:{SET}
-})
+};
 </script>
 
-<style lang="less">
-  *{
-    margin: 0;
-  }
-  
-</style>
+<style></style>

@@ -1,296 +1,225 @@
-import { createRouter, createWebHashHistory, RouteRecordRaw } from "vue-router";
-import store from "@/store/index";
-//进度条
-import NProgress from 'nprogress' ;
-import 'nprogress/nprogress.css';
-const routes: Array<RouteRecordRaw> = [
-    {
-        path: "/login",
-        name: "login",
-        component: () => import("@/views/login/login.vue"),
-    },
-   
+import * as R from "ramda";
+import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
+import type { App } from "vue";
+import store from "store/index";
+
+const Layout = () => import("@/layout/index.vue");
+
+// 通用路由表
+// export const constRoutes: Array<RouteRecordRaw> = [
+export const constRoutes = [
+  {
+    path: "/login",
+    name: "login",
+    component: { template: "<div>登录页</div>" },
+    meta: { title: "登录页", hidden: true },
+  },
+  {
+    path: "/404",
+    name: "404",
+    component: { template: "<div>404页面</div>" },
+    meta: { title: "404", hidden: true },
+  },
+  {
+    id: "C01",
+    path: "/",
+    name: "dashboard",
+    component: Layout,
+    redirect: "/dashboard",
+    meta: { title: "首页", icon: "PieChartOutlined" },
+    children: [
+      {
+        id: "R010",
+        path: "dashboard",
+        name: "dashboard",
+        meta: { title: "首页" },
+        component: () => import("comps/HelloWorld.vue"),
+      },
+    ],
+  },
 ];
 
-const router = createRouter({
-    history: createWebHashHistory(),
-    routes,
-});
-
-router.beforeEach((to: any, from: any, next: any) => {
-    NProgress.start();
-    //未登陆
-    if (!window.localStorage.getItem("token") && to.path !== "/login") {
-        return next({ path: "/login" });
-    };
-    //已登陆
-    if(window.localStorage.getItem("token")&&to.path == "/login") return next({ path: "/" });
-    //重新加载动态路由
-    if (!store.state.permissionList&&to.path!='/login') {
-        // router.removeRoute('router');
-        return store.dispatch("FETCH_PERMISSION").then(() => {
-            next({ ...to, replace: true });
-        });
-    } else {
-        next();
-    }
-});
-router.afterEach((to: any, from: any, next: any) => {
-    NProgress.done();
-    try {
-        //设置标题
-        if (to.meta.name) {
-            document.title = to.meta.name;
-        }
-    } catch (err) {}
-    let routerList = to.matched;
-    //顶部面包屑
-    store.commit("setCrumbList", routerList);
-    //目前左边导航选中的active
-    store.commit("SET_CURRENT_MENU", to.name);
-});
-/* 固定的路由 */
-/*
-    meta:{
-        name:侧边栏名字,
-        icon:侧边栏图标,
-        hide:是否在侧边栏隐藏
-    }
-*/ 
-export const DynamicRoutes = [
-    {
-        path: "",
-        component:  () => import("@/components/nav/nav.vue"),
-        name: "container",
-        // redirect: 'home',
-        meta: {
-            // requiresAuth: true,
-            name: "首页",
-        },
+// 动态路由表：根据权限加载
+export const dynamicRoutes = [
+  {
+    id: "C02",
+    path: "/system",
+    name: "system",
+    component: Layout,
+    meta: { title: "系统管理", icon: "DesktopOutlined", role: ["admin"] },
+    children: [
+      {
+        id: "R020",
+        path: "user",
+        name: "user",
+        meta: { title: "用户列表", icon: "AppstoreOutlined", role: ["admin"] },
+        component: () => import("views/system/user/index.vue"),
         children: [
-            {
-                path: "home",
-                component: () => import("@/views/home/home.vue"),
-                name: "home",
-                meta: {
-                    name: "首页",
-                    icon: "el-icon-s-home",
-                },
-            },
-            {
-                path: "router",
-                component: () => import("@/views/router/router.vue"),
-                name: "router",
-                meta: {
-                    name: "路由管理",
-                    icon: "el-icon-guide",
-                    hide:false
-                },
-            },
-            {
-                path: "color",
-                component: () => import("@/views/color/color.vue"),
-                name: "color",
-                meta: {
-                    name: "主题管理",
-                    icon: "el-icon-brush",
-                },
-            },
-            {
-                path: "language",
-                component: () => import("@/views/language/language.vue"),
-                name: "language",
-                meta: {
-                    name: "国际化",
-                    icon: "el-icon-s-flag",
-                },
-            },
-            {
-                path: "icon",
-                component: () => import("@/views/icon/index.vue"),
-                name: "icon",
-                meta: {
-                    name: "图标管理",
-                    icon: "el-icon-picture-outline-round",
-                },
-                children:[
-                    {
-                        path: "elicon",
-                        component: () => import("@/views/icon/el-icon.vue"),
-                        name: "elicon",
-                        meta: {
-                            name: "Element图标",
-                            icon: "el-icon-caret-bottom",
-                            // hide:true
-                        },
-                    },
-                    {
-                        path: "aliicon",
-                        component: () => import("@/views/icon/ali-icon.vue"),
-                        name: "aliicon",
-                        meta: {
-                            name: "阿里图标",
-                            icon: "el-icon-caret-top",
-                        },
-                    }
-                ]
-            },
-            {
-                path: "table",
-                component: () => import("@/views/table/index.vue"),
-                name: "table",
-                meta: {
-                    name: "表格管理",
-                    icon: "el-icon-s-grid",
-                },
-                children:[
-                    {
-                        path: "basics",
-                        component: () => import("@/views/table/basics.vue"),
-                        name: "basics",
-                        meta: {
-                            name: "基础表格",
-                            icon: "el-icon-menu",
-                        },
-                    },
-                    {
-                        path: "complex",
-                        component: () => import("@/views/table/complex.vue"),
-                        name: "complex",
-                        meta: {
-                            name: "复杂表格",
-                            icon: "el-icon-s-grid",
-                        },
-                    }
-                ]
-            },
-            {
-                path: "chart",
-                component: () => import("@/views/chart/index.vue"),
-                name: "chart",
-                meta: {
-                    name: "图表示例",
-                    icon: "el-icon-s-data",
-                },
-                children:[
-                    {
-                        path: "column",
-                        component: () => import("@/views/chart/column.vue"),
-                        name: "column",
-                        meta: {
-                            name: "柱形图表",
-                            icon: "el-icon-s-data",
-                        },
-                    },
-                    {
-                        path: "line",
-                        component: () => import("@/views/chart/line.vue"),
-                        name: "line",
-                        meta: {
-                            name: "折线图表",
-                            icon: "el-icon-minus",
-                        },
-                    },
-                    {
-                        path: "more",
-                        component: () => import("@/views/chart/more.vue"),
-                        name: "more",
-                        meta: {
-                            name: "其他图表",
-                            icon: "el-icon-s-operation",
-                        },
-                    },
-                ]
-            },
-            {
-                path: "text",
-                component: () => import("@/views/text/text.vue"),
-                name: "text",
-                meta: {
-                    name: "富文本编辑器",
-                    icon: "el-icon-document",
-                },
-            },
-            {
-                path: "uploading",
-                component: () => import("@/views/uploading/uploading.vue"),
-                name: "uploading",
-                meta: {
-                    name: "自定义图片上传",
-                    icon: "el-icon-upload",
-                },
-            },
-            {
-                path: "map",
-                component: () => import("@/views/map/index.vue"),
-                name: "map",
-                meta: {
-                    name: "地图",
-                    icon: "el-icon-map-location",
-                },
-                children:[
-                    {
-                        path: "baidu",
-                        component: () => import("@/views/map/baidu.vue"),
-                        name: "baidu",
-                        meta: {
-                            name: "百度地图",
-                            icon: "el-icon-guide",
-                        },
-                    },
-                    {
-                        path: "autoNavi",
-                        component: () => import("@/views/map/autoNavi.vue"),
-                        name: "autoNavi",
-                        meta: {
-                            name: "高德地图",
-                            icon: "el-icon-position",
-                        },
-                    }
-                ]
-            },
-            {
-                path: "contact",
-                component: () => import("@/views/contact/contact.vue"),
-                name: "contact",
-                meta: {
-                    name: "联系我们",
-                    icon: "el-icon-phone",
-                },
-            },
-            {
-                path: "else",
-                component: () => import("@/views/else/index.vue"),
-                name: "else",
-                meta: {
-                    name: "其他组件",
-                    icon: "el-icon-question",
-                },
-                children:[
-                    {
-                        path: "convas",
-                        component: () => import("@/views/else/canvas.vue"),
-                        name: "convas",
-                        meta: {
-                            name: "页面生成图片",
-                            icon: "el-icon-picture-outline",
-                        },
-                    },
-                    {
-                        path: "code",
-                        component: () => import("@/views/else/code.vue"),
-                        name: "code",
-                        meta: {
-                            name: "动态二维码",
-                            icon: "el-icon-full-screen",
-                        },
-                    }
-                ]
-            }
-            
+          {
+            path: "add",
+            name: "userAdd",
+            meta: { title: "新增用户", role: ["admin"] },
+            component: { template: "<div>新增用户</div>" },
+          },
+          {
+            path: "edit",
+            name: "userEdit",
+            meta: { title: "编辑用户", role: ["admin"] },
+            component: { template: "<div>编辑用户</div>" },
+          },
+          {
+            path: "edit",
+            name: "userHidden",
+            meta: { title: "隐藏页", role: ["admin"], hidden: true },
+            component: { template: "<div>隐藏页</div>" },
+          },
+        ],
+      },
+      {
+        id: "R021",
+        path: "role",
+        name: "role",
+        meta: { title: "角色列表", icon: "InboxOutlined", role: ["admin"] },
+        component: () => import("views/system/role/index.vue"),
+      },
+      {
+        id: "R022",
+        path: "permission",
+        name: "permission",
+        meta: { title: "权限列表", icon: "MailOutlined", role: ["admin"] },
+        component: () => import("views/system/permission/index.vue"),
+      },
+    ],
+  },
+  {
+    id: "C03",
+    path: "/result",
+    name: "result",
+    component: Layout,
+    redirect: "/result/200",
+    meta: { title: "结果页", icon: "SettingOutlined", role: ["admin"] },
+    children: [
+      {
+        id: "R030",
+        path: "200",
+        name: "200",
+        meta: { title: "成功页", role: ["admin"] },
+        component: { template: "<div>200页面</div>" },
+        children: [
+          {
+            path: "200",
+            name: "one",
+            meta: { title: "成功页1", role: ["admin"] },
+            component: { template: "<div>200页面111</div>" },
+          }
         ]
-        
-    }
+      },
+      {
+        id: "R031",
+        path: "500",
+        name: "500",
+        meta: { title: "失败页", role: ["admin"] },
+        component: { template: "<div>500页面</div>" },
+      },
+    ],
+  },
+  {
+    path: "/components",
+    component: Layout,
+    name: "components",
+    meta: { title: "组件库", icon: "QqOutlined", role: ["admin", "root"] },
+    children: [
+      {
+        path: "table",
+        component: { template: "<div>表格展示页</div>" },
+        name: "table",
+        meta: { title: "表格", role: ["admin", "root"] },
+      },
+      {
+        path: "tree",
+        component: { template: "<div>树组件页</div>" },
+        name: "tree",
+        meta: { title: "树组件", role: ["admin", "root"] },
+      },
+    ],
+  },
+  {
+    path: "/test",
+    name: "test",
+    component: Layout,
+    redirect: "/test/index",
+    meta: { title: "权限测试", icon: "AppstoreOutlined", role: ["admin", "root"] },
+    children: [
+      {
+        path: "index",
+        component: { template: "<div>权限测试页</div>" },
+        name: "testIndex",
+        meta: { title: "权限测试页", role: ["admin", "root"] },
+      },
+    ],
+  },
+  // 一定要放在最后，且在动态路由中添加，避免所有页面都被拦截到404
+  { path: "/:pathMatch(.*)*", redirect: "/404", meta: { hidden: true } },
 ];
+
+// createWebHashHistory (hash路由 Hash模式 #)
+// createWebHistory (history路由 HTML5 模式 推荐，需要服务器配置支持)
+// createMemoryHistory 带缓存 history 路由
+const router = createRouter({
+  history: createWebHistory(),
+  routes: constRoutes,
+  // routes: R.concat(constRoutes, dynamicRoutes),
+  scrollBehavior(to, from, savedPosition) {
+    if (savedPosition) {
+      // 通过前进后台时才触发
+      return savedPosition
+    } else {
+      // 滚动到顶部
+      return { top: 0, behavior: "smooth" }
+    }
+  },
+});
+
+// 路由守卫，进行菜单和权限的处理
+router.beforeEach((to, from, next) => {
+  if (to.path !== from.path) {
+    document.title = `${to.meta.title}`;
+  }
+
+  if (to.path === "/login" || to.path === "/register") {
+    next();
+  } else if (store.getters.routes.length <= 3) {
+    // 防止无限循环，要根据条件停止：通用路由表长度3
+    store.dispatch("generateRoutes");
+    // @ts-ignore
+    next({ ...to, replace: true });
+  } else {
+    next();
+  }
+});
+
+router.onError((error) => {
+  const pattern = /Loading chunk (\d)+ failed/g
+  const isChunkLoadFailed = error.message.match(pattern)
+  if (isChunkLoadFailed) {
+    location.reload()
+  }
+})
+
+// 删除/重置路由
+// getRoutes()：获取一个包含所有路由记录的数组
+// hasRoute()：检查路由是否存在
+export function resetRoute(): void {
+  router.getRoutes().forEach((route) => {
+    const { name } = route;
+    if (name) {
+      router.hasRoute(name) && router.removeRoute(name);
+    }
+  });
+}
+
+export function setupRouter(app: App<Element>) {
+  app.use(router);
+}
 
 export default router;
