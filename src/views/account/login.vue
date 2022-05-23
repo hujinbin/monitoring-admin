@@ -3,20 +3,34 @@
   <div id="login_box">
     <h2>LOGIN</h2>
     <div id="input_box">
-      <input type="text" placeholder="请输入用户名">
+      <input type="text" v-model="userName" placeholder="请输入用户名">
     </div>
     <div class="input_box">
-      <input type="password" placeholder="请输入密码">
+      <input type="password" v-model="possword" placeholder="请输入密码">
     </div>
-    <button>登录</button><br>
+    <button @click="onLogin">登录</button><br>
   </div>
 </div>
 </template>
 
-<script>
-export default {
-
-}
+<script lang="ts">
+import { defineComponent, ref } from 'vue';
+import { useRouter } from "vue-router";
+export default defineComponent({
+    setup() {
+      const userName = ref<string>('test');
+      const possword = ref<string>('123456');
+      let router = useRouter();
+      const onLogin = ()=>{
+          router.push('/')
+      }
+        return {
+userName,
+possword,
+onLogin,
+        }
+    }
+})
 </script>
 
 <style scoped>
