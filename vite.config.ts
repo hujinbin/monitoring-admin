@@ -97,4 +97,9 @@ export default defineConfig({
       },
     },
   },
+  server:{
+    proxy:{
+      '/api': 'http://ops.ydctml.top'
+    }
+  }
 });
