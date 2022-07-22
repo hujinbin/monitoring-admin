@@ -1,10 +1,9 @@
 <template>
-  <div>role 角色列表</div>
+    <div>role 角色列表</div>
 </template>
 
 <script>
-export default {};
+export default {}
 </script>
 
-<style>
-</style>
+<style></style>

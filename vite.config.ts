@@ -1,6 +1,7 @@
 import {defineConfig} from "vite";
 import vue from "@vitejs/plugin-vue";
 import path from "path";
+import eslintPlugin from "vite-plugin-eslint";
 // import eslint from '@rollup/plugin-eslint'
 // import vitePluginImp from 'vite-plugin-imp'
 
@@ -15,6 +16,9 @@ export default defineConfig({
         //   fix: false,
         // }),
         vue(),
+        eslintPlugin({
+            include: 'src/*.+(vue|js|ts)'
+        })
         // vitePluginImp({
         //   libList: [
         //     {

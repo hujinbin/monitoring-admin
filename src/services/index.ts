@@ -1,6 +1,7 @@
-import fetch from '../utils/request';
+import fetch from '../utils/request'
 
-export const pingNetworks = () => fetch<any>({
-    method: 'GET',
-    url: '/ping'
-})
+export const pingNetworks = () =>
+    fetch<any>({
+        method: 'GET',
+        url: '/ping'
+    })
