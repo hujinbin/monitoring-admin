@@ -1,10 +1,9 @@
 <template>
-  <div>200 成功页</div>
+    <div>200 成功页</div>
 </template>
 
 <script>
-export default {};
+export default {}
 </script>
 
-<style>
-</style>
+<style></style>

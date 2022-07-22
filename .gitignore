@@ -3,3 +3,13 @@ node_modules
 dist
 dist-ssr
 *.local
+
+# Editor directories and files
+.idea
+.vscode
+.history
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+.VSCodeCounter
