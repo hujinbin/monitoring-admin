@@ -38,10 +38,5 @@
     "vite-plugin-eslint": "^1.7.0",
     "vite-plugin-imp": "^2.0.10",
     "vue-tsc": "^0.28.10"
-  },
-  "husky": {
-    "hooks": {
-      "commit-msg": "commitlint -e $HUSKY_GIT_PARAMS"
-    }
   }
 }
