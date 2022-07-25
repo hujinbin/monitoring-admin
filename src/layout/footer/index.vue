@@ -1,6 +1,6 @@
 <template>
     <a-layout-footer style="text-align: center">
-        Ant Design ©2018 Created by Ant UED
+        Monitor App ©2022 Created by HJB & YDC
     </a-layout-footer>
 </template>
 
@@ -9,5 +9,3 @@ import { defineComponent } from 'vue'
 
 export default defineComponent({})
 </script>
-
-<style></style>
