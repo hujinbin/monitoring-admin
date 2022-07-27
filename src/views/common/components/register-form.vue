@@ -38,10 +38,12 @@
     >
       <a-input-search
         v-model:value="form.code"
-        @search="handleGetCode"
+        @search="handleGetVerityCode"
       >
         <template #enterButton>
-          <a-button>获取验证码</a-button>
+          <a-button>
+            获取验证码
+          </a-button>
         </template>
       </a-input-search>
     </a-form-item>
@@ -78,7 +80,7 @@ import { fetchUserRegister } from '../../../services/user';
 import { useRouter } from 'vue-router';
 
 export default defineComponent({
-    name: 'LoginForm',
+    name: 'RegisterForm',
 
     components: {
         InviteCodeDialog,
@@ -155,12 +157,12 @@ export default defineComponent({
             console.log(args);
         };
 
-        const handleGetCode = () => {
-            console.log('code');
-        };
-
         const handleCloseDialog = () => {
             dialogVisible.value = false;
+        };
+
+        const handleGetVerityCode = () => {
+            dialogVisible.value = true;
         };
 
         return {
@@ -171,9 +173,9 @@ export default defineComponent({
             handleFinish,
             handleFinishFailed,
             handleValidate,
-            handleGetCode,
             handleCloseDialog,
             handleToLoginView,
+            handleGetVerityCode,
         };
     },
 });
