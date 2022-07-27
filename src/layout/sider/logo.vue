@@ -1,34 +1,42 @@
 <template>
-    <div class="m-logo">
-        <Icon :icon="logo" class="icon" />
-        <div v-show="!isCollapse" class="title">{{ title }}</div>
+  <div class="m-logo">
+    <Icon
+      :icon="logo"
+      class="icon"
+    />
+    <div
+      v-show="!isCollapse"
+      class="title"
+    >
+      {{ title }}
     </div>
+  </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from 'vue'
-import { useStore } from 'store/index'
+import { defineComponent, computed } from 'vue';
+import { useStore } from 'store/index';
 
 export default defineComponent({
     setup() {
-        const store = useStore()
-        const title = computed(() => store.state.settings.title)
-        const logo = computed(() => store.state.settings.logo)
-        const isCollapse = computed(() => store.state.settings.isCollapse)
+        const store = useStore();
+        const title = computed(() => store.state.settings.title);
+        const logo = computed(() => store.state.settings.logo);
+        const isCollapse = computed(() => store.state.settings.isCollapse);
 
         return {
             title,
             logo,
-            isCollapse
-        }
+            isCollapse,
+        };
     },
     data() {
-        return {}
-    }
-})
+        return {};
+    },
+});
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="less">
 .m-logo {
     display: flex;
     align-items: center;

@@ -1,9 +1,9 @@
 <template>
-    <div>permission 权限列表</div>
+  <div>permission 权限列表</div>
 </template>
 
 <script>
-export default {}
+export default {};
 </script>
 
 <style></style>

@@ -17,7 +17,8 @@
       "views/*": ["src/utils/*"],
       "routes/*": ["src/routes/*"],
       "styles/*": ["src/styles/*"],
-      "store/*": ["src/store/*"]
+      "store/*": ["src/store/*"],
+      "interface/*": ["src/interface/*"]
     }
   },
   "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"]
