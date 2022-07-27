@@ -1,36 +1,46 @@
 <template>
-    <div class="login-container">
-        <div id="login_box">
-            <h2>LOGIN</h2>
-            <div id="input_box">
-                <input v-model="userName" type="text" placeholder="请输入用户名" />
-            </div>
-            <div class="input_box">
-                <input v-model="possword" type="password" placeholder="请输入密码" />
-            </div>
-            <button @click="onLogin">登录</button><br />
-        </div>
+  <div class="login-container">
+    <div id="login_box">
+      <h2>LOGIN</h2>
+      <div id="input_box">
+        <input
+          v-model="userName"
+          type="text"
+          placeholder="请输入用户名"
+        >
+      </div>
+      <div class="input_box">
+        <input
+          v-model="possword"
+          type="password"
+          placeholder="请输入密码"
+        >
+      </div>
+      <button @click="onLogin">
+        登录
+      </button><br>
     </div>
+  </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { defineComponent, ref } from 'vue';
+import { useRouter } from 'vue-router';
 export default defineComponent({
     setup() {
-        const userName = ref<string>('test')
-        const possword = ref<string>('123456')
-        let router = useRouter()
+        const userName = ref<string>('test');
+        const possword = ref<string>('123456');
+        let router = useRouter();
         const onLogin = () => {
-            router.push('/')
-        }
+            router.push('/');
+        };
         return {
             userName,
             possword,
-            onLogin
-        }
-    }
-})
+            onLogin,
+        };
+    },
+});
 </script>
 
 <style scoped>

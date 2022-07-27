@@ -1,7 +1,7 @@
-import {defineConfig} from "vite";
-import vue from "@vitejs/plugin-vue";
-import path from "path";
-import eslintPlugin from "vite-plugin-eslint";
+import { defineConfig } from 'vite';
+import vue from '@vitejs/plugin-vue';
+import path from 'path';
+import eslintPlugin from 'vite-plugin-eslint';
 // import eslint from '@rollup/plugin-eslint'
 // import vitePluginImp from 'vite-plugin-imp'
 
@@ -17,8 +17,8 @@ export default defineConfig({
         // }),
         vue(),
         eslintPlugin({
-            include: 'src/*.+(vue|js|ts)'
-        })
+            include: 'src/*.+(vue|js|ts)',
+        }),
         // vitePluginImp({
         //   libList: [
         //     {
@@ -29,7 +29,7 @@ export default defineConfig({
         //   ],
         // })
     ],
-    base: "/", //开发或生产环境服务的公共基础路径
+    base: '/', //开发或生产环境服务的公共基础路径
     build: {
         terserOptions: {
             compress: {
@@ -46,12 +46,12 @@ export default defineConfig({
                 manualChunks(id) {
                     // 以下这段代码会根据条件，将符合条件的文件模块打包成特定的chunk文件
                     // 将node_modules 中的包切割成单独的chunk，有助于文件的预加载、以及缓存优化
-                    if (id.includes("node_modules") && id.includes("ant-design-vue")) {
-                        return "ant-design-vue";
-                    } else if (id.includes("node_modules") && id.includes("vue")) {
-                        return "vue-module";
-                    } else if (id.includes("node_modules")) {
-                        return "other-module";
+                    if (id.includes('node_modules') && id.includes('ant-design-vue')) {
+                        return 'ant-design-vue';
+                    } if (id.includes('node_modules') && id.includes('vue')) {
+                        return 'vue-module';
+                    } if (id.includes('node_modules')) {
+                        return 'other-module';
                     }
                 },
             },
@@ -60,15 +60,16 @@ export default defineConfig({
     resolve: {
         alias: {
             // '/@src': path.resolve(__dirname, 'src'), // 好多都采用"/"开头，设置别名？？？
-            vue: "vue/dist/vue.esm-bundler.js",
-            "@": resolve("src"),
-            comps: resolve("src/components"),
-            apis: resolve("src/apis"),
-            views: resolve("src/views"),
-            utils: resolve("src/utils"),
-            routes: resolve("src/routes"),
-            styles: resolve("src/styles"),
-            store: resolve("src/store"),
+            vue: 'vue/dist/vue.esm-bundler.js',
+            '@': resolve('src'),
+            comps: resolve('src/components'),
+            apis: resolve('src/apis'),
+            views: resolve('src/views'),
+            utils: resolve('src/utils'),
+            routes: resolve('src/routes'),
+            styles: resolve('src/styles'),
+            store: resolve('src/store'),
+            interface: resolve('src/interface'),
             // '@ant-design/icons-vue/lib/index$': resolve('src/libs/antdvIcons.ts')
         },
     },
@@ -80,7 +81,7 @@ export default defineConfig({
     optimizeDeps: {
         include: [
             // 不是位于node_modules直接目录下的包不会被预构建，使用此选项可强制预构建链接的包
-            "@ant-design/icons-vue",
+            '@ant-design/icons-vue',
             'ant-design-vue/es/date-picker/locale/zh_CN',
             'ant-design-vue/es/locale/zh_CN',
         ],
@@ -91,19 +92,19 @@ export default defineConfig({
             // 传入全局less变量
             less: {
                 // 定制主题
-                modifyVars: {"primary-color": "#1188ff"},
+                modifyVars: { 'primary-color': '#1188ff' },
                 javascriptEnabled: true,
             },
             scss: {
                 // 传入全局的scss变量
-                additionalData: `$injectedColor: orange;`,
+                additionalData: '$injectedColor: orange;',
                 // additionalData: '@import "./src/styles/variables";'
             },
         },
     },
     server: {
         proxy: {
-            '/api': 'http://ops.ydctml.top'
-        }
-    }
+            '/api': 'http://ops.ydctml.top',
+        },
+    },
 });

@@ -1,10 +1,10 @@
 // （1）全局引入
-import type { App } from "vue";
-import Antd from "ant-design-vue";
-import "ant-design-vue/dist/antd.css";
+import type { App } from 'vue';
+import Antd from 'ant-design-vue';
+import 'ant-design-vue/dist/antd.css';
 
 export function setupAntd(app: App<Element>): void {
-  app.use(Antd);
+    app.use(Antd);
 }
 
 // （2）手动按需引入

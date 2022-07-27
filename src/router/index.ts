@@ -1,12 +1,12 @@
-import {createRouter, createWebHistory, RouteRecordRaw} from "vue-router";
-import { App } from "vue";
-import store from "store/index";
+import { createRouter, createWebHistory } from 'vue-router';
+import { App } from 'vue';
+import store from 'store/index';
 
-const Layout = () => import("@/layout/index.vue");
-
+const Layout = () => import('@/layout/index.vue');
 
 // 业务路由
-const Login = () => import("@/views/account/login.vue");
+const Login = () => import('@/views/common/login.vue');
+const Register = () => import('@/views/common/register.vue');
 
 const AlarmList = () => import('@/views/alarm-management/list.vue');
 const AlarmSetting = () => import('@/views/alarm-management/setting.vue');
@@ -24,126 +24,132 @@ const SystemSetting = () => import('@/views/setting/index.vue');
 // 通用路由表
 export const constRoutes = [
     {
-        path: "/login",
-        name: "login",
+        path: '/login',
+        name: 'login',
         component: Login,
-        meta: {title: "登录页", hidden: true},
+        meta: { title: '登录页', hidden: true },
     },
     {
-        path: "/404",
-        name: "404",
-        component: {template: "<div>404页面</div>"},
-        meta: {title: "404", hidden: true},
+        path: '/register',
+        name: 'register',
+        component: Register,
+        meta: { title: '注册页', hidden: true },
+    },
+    {
+        path: '/404',
+        name: '404',
+        component: { template: '<div>404页面</div>' },
+        meta: { title: '404', hidden: true },
     },
 ];
 
 // 动态路由表：根据权限加载
 export const dynamicRoutes = [
     {
-        path: "/dashboard",
-        name: "dashboard",
+        path: '/dashboard',
+        name: 'dashboard',
         component: Layout,
         redirect: {
-            name: 'dashboard-index'
+            name: 'dashboard-index',
         },
-        meta: {title: "控制台", icon: "LaptopOutlined", role: ["admin"]},
+        meta: { title: '控制台', icon: 'LaptopOutlined', role: ['admin'] },
         children: [
             {
-                path: "",
-                name: "dashboard-index",
-                meta: {title: "控制台", role: ["admin"]},
+                path: '',
+                name: 'dashboard-index',
+                meta: { title: '控制台', role: ['admin'] },
                 component: Dashboard,
             },
         ],
     },
     {
-        path: "/user",
-        name: "user-management",
+        path: '/user',
+        name: 'user-management',
         component: Layout,
         redirect: {
-            name: 'user-list'
+            name: 'user-list',
         },
-        meta: {title: "用户管理", icon: "UserOutlined", role: ["admin"]},
+        meta: { title: '用户管理', icon: 'UserOutlined', role: ['admin'] },
         children: [
             {
-                path: "list",
-                name: "user-list",
-                meta: {title: "用户列表", role: ["admin"]},
+                path: 'list',
+                name: 'user-list',
+                meta: { title: '用户列表', role: ['admin'] },
                 component: UserList,
             },
         ],
     },
     {
-        path: "/data",
-        name: "data-management",
+        path: '/data',
+        name: 'data-management',
         component: Layout,
         redirect: {
-            name: 'domain-list'
+            name: 'domain-list',
         },
-        meta: {title: "数据管理", icon: "SnippetsOutlined", role: ["admin"]},
+        meta: { title: '数据管理', icon: 'SnippetsOutlined', role: ['admin'] },
         children: [
             {
-                path: "domain-list",
-                name: "domain-list",
-                meta: {title: "域名列表", role: ["admin"]},
+                path: 'domain-list',
+                name: 'domain-list',
+                meta: { title: '域名列表', role: ['admin'] },
                 component: DomainList,
             },
             {
-                path: "interface-list",
-                name: "interface-list",
-                meta: {title: "接口列表", role: ["admin"]},
+                path: 'interface-list',
+                name: 'interface-list',
+                meta: { title: '接口列表', role: ['admin'] },
                 component: InterfaceList,
             },
             {
-                path: "error-list",
-                name: "error-list",
-                meta: {title: "报错信息", role: ["admin"]},
+                path: 'error-list',
+                name: 'error-list',
+                meta: { title: '报错信息', role: ['admin'] },
                 component: ErrorList,
             },
         ],
     },
     {
-        path: "/alarm",
-        name: "alarm-management",
+        path: '/alarm',
+        name: 'alarm-management',
         component: Layout,
         redirect: {
-            name: 'alarm-list'
+            name: 'alarm-list',
         },
-        meta: {title: "告警管理", icon: "AlertOutlined", role: ["admin"]},
+        meta: { title: '告警管理', icon: 'AlertOutlined', role: ['admin'] },
         children: [
             {
-                path: "list",
-                name: "alarm-list",
-                meta: {title: "告警列表", role: ["admin"]},
+                path: 'list',
+                name: 'alarm-list',
+                meta: { title: '告警列表', role: ['admin'] },
                 component: AlarmList,
             },
             {
-                path: "setting",
-                name: "alarm-setting",
-                meta: {title: "告警设置", role: ["admin"]},
+                path: 'setting',
+                name: 'alarm-setting',
+                meta: { title: '告警设置', role: ['admin'] },
                 component: AlarmSetting,
             },
         ],
     },
     {
-        path: "/system",
-        name: "system-management",
+        path: '/system',
+        name: 'system-management',
         component: Layout,
         redirect: {
-            name: 'system-setting'
+            name: 'system-setting',
         },
-        meta: {title: "系统管理", icon: "SettingOutlined", role: ["admin"]},
+        meta: { title: '系统管理', icon: 'SettingOutlined', role: ['admin'] },
         children: [
             {
-                path: "setting",
-                name: "system-setting",
-                meta: {title: "系统设置", role: ["admin"]},
+                path: 'setting',
+                name: 'system-setting',
+                meta: { title: '系统设置', role: ['admin'] },
                 component: SystemSetting,
             },
         ],
     },
     // 一定要放在最后，且在动态路由中添加，避免所有页面都被拦截到404
-    {path: "/:pathMatch(.*)*", redirect: "/404", meta: {hidden: true}},
+    { path: '/:pathMatch(.*)*', redirect: '/404', meta: { hidden: true } },
 ];
 
 /**
@@ -153,16 +159,15 @@ export const dynamicRoutes = [
  */
 const router = createRouter({
     history: createWebHistory(),
-    routes: constRoutes,
-    // routes: R.concat(constRoutes, dynamicRoutes),
+    // routes: constRoutes,
+    routes: [...constRoutes, ...dynamicRoutes],
     scrollBehavior(to, from, savedPosition) {
         if (savedPosition) {
             // 通过前进后台时才触发
-            return savedPosition
-        } else {
-            // 滚动到顶部
-            return {top: 0, behavior: "smooth"}
+            return savedPosition;
         }
+        // 滚动到顶部
+        return { top: 0, behavior: 'smooth' };
     },
 });
 
@@ -172,28 +177,29 @@ router.beforeEach((to, from, next) => {
         document.title = `${to.meta.title}`;
     }
     if (to.path === '/') {
-		next({ name: 'dashboard' })
+        next({ name: 'dashboard' });
     }
 
-    if (to.path === "/login" || to.path === "/register") {
+    if (to.path === '/login' || to.path === '/register') {
         next();
     } else if (store.getters.routes.length <= 3) {
         // 防止无限循环，要根据条件停止：通用路由表长度3
-        store.dispatch("generateRoutes");
+        store.dispatch('generateRoutes');
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
-        next({...to, replace: true});
+        next({ ...to, replace: true });
     } else {
         next();
     }
 });
 
-router.onError((error) => {
-    const pattern = /Loading chunk (\d)+ failed/g
-    const isChunkLoadFailed = error.message.match(pattern)
+router.onError(error => {
+    const pattern = /Loading chunk (\d)+ failed/g;
+    const isChunkLoadFailed = error.message.match(pattern);
     if (isChunkLoadFailed) {
-        location.reload()
+        location.reload();
     }
-})
+});
 
 /**
  * 删除/重置路由
@@ -201,8 +207,8 @@ router.onError((error) => {
  * hasRoute()：检查路由是否存在
  */
 export function resetRoute(): void {
-    router.getRoutes().forEach((route) => {
-        const {name} = route;
+    router.getRoutes().forEach(route => {
+        const { name } = route;
         if (name) {
             router.hasRoute(name) && router.removeRoute(name);
         }
