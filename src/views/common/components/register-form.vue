@@ -73,11 +73,20 @@
 <script lang="ts">
 import { defineComponent, reactive, ref } from 'vue';
 import { IUserRegister } from '../../../interfaces/user';
-import type { Rule } from 'ant-design-vue/es/form';
-import type { FormInstance } from 'ant-design-vue';
 import InviteCodeDialog from 'comps/InviteCodeDialog/index.vue';
 import { fetchUserRegister } from '../../../services/user';
 import { useRouter } from 'vue-router';
+
+interface Rule {
+  required?: boolean;
+  message?: string;
+  trigger?: string | string[];
+  validator?: (rule: Rule, value: string) => Promise<void>;
+}
+
+interface FormInstance {
+  validateFields: (name?: string | string[]) => Promise<unknown>;
+}
 
 export default defineComponent({
     name: 'RegisterForm',
@@ -131,8 +140,8 @@ export default defineComponent({
             if (value === '') {
                 return Promise.reject('请输入密码');
             }
-            if (form.passwordAgain !== '') {
-                formRef.value.validateFields('passwordAgain');
+            if (form.passwordAgain !== '' && formRef.value) {
+              await formRef.value.validateFields('passwordAgain');
             }
             return Promise.resolve();
         };

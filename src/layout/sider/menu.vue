@@ -45,7 +45,13 @@ import * as R from 'ramda';
 import { defineComponent, computed, ref, toRefs, reactive, watch } from 'vue';
 // import { useRouter } from "vue-router";
 import { useStore } from 'store/index';
+import type { RouteRecord } from 'store/interface';
 import SubMenu from './subMenu.vue';
+
+interface MenuClickInfo {
+  key: string;
+  keyPath: string[];
+}
 
 export default defineComponent({
     components: {
@@ -54,7 +60,7 @@ export default defineComponent({
     setup() {
         const store = useStore();
         const routes = computed(() => store.state.routes.routes);
-        const menus = computed(() => store.state.routes.menus);
+      const menus = computed<RouteRecord[]>(() => store.state.routes.menus);
         // console.log("routes", routes.value);
         // console.log("menus", menus.value);
 
@@ -72,7 +78,7 @@ export default defineComponent({
                 : [],
         });
 
-        const handleMenuClick = ({ key, keyPath }) => {
+        const handleMenuClick = ({ key, keyPath }: MenuClickInfo) => {
             store.commit('SELECTED_MENU', key);
             store.commit('OPEN_MENU', state.openKeys);
             // 保存选中路径

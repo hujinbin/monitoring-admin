@@ -2,8 +2,10 @@ import axios, { AxiosRequestConfig } from 'axios';
 import { ICommonResponse } from '../interfaces/common';
 import { message } from 'ant-design-vue';
 
+const apiBaseURL = import.meta.env.VITE_API_BASE_URL || 'https://monitor.leheavengame.com/api';
+
 const instance = axios.create({
-    baseURL: '/api',
+    baseURL: apiBaseURL,
     timeout: 5000,
 });
 
@@ -21,7 +23,7 @@ const request = async <T = any>(config: AxiosRequestConfig): Promise<ICommonResp
     try {
         const response = await instance(config);
         if (response.data.code !== 200) {
-            return message.error(response.data.msg);
+            message.error(response.data.msg);
         }
         return response.data;
     } catch (err) {

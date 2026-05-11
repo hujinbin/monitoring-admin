@@ -20,8 +20,10 @@ export interface SettingsState {
 }
 
 interface RouteMeta {
-    title: string;
-    icon: string;
+    title?: string;
+    icon?: string;
+    hidden?: boolean;
+    role?: string[];
     // auth: string[]
     // isLink?: string
     // isAffix: boolean
@@ -32,14 +34,14 @@ interface RouteMeta {
 }
 
 export interface RouteRecord {
-    id: string;
+    id?: string;
     name?: string;
     meta?: RouteMeta;
     children?: RouteRecord[];
     orderId?: number;
     path?: string;
     component?: Component | string;
-    redirect?: string;
+    redirect?: string | { name: string };
 }
 
 // @ts-ignore
@@ -56,9 +58,9 @@ export interface RouteRecord {
 // }
 
 export interface RoutesState {
-    routes: Array<object>;
+    routes: RouteRecord[];
     // routes: Array<AppRouteRecordRaw>,
-    menus: Array<object>;
+    menus: RouteRecord[];
 }
 
 // 主接口(顶级类型声明)

@@ -1,7 +1,7 @@
 import * as R from 'ramda';
 import { Module } from 'vuex';
 import type { RouteRecordRaw } from 'vue-router';
-import { RoutesState, RootStateTypes } from '../interface/index';
+import { RoutesState, RootStateTypes, RouteRecord } from '../interface/index';
 import router, { constRoutes, dynamicRoutes, resetRoute } from '../../router';
 
 const routes: Module<RoutesState, RootStateTypes> = {
@@ -15,10 +15,10 @@ const routes: Module<RoutesState, RootStateTypes> = {
         routes: (state) => state.routes,
     },
     mutations: {
-        SET_ROUTE(state: RoutesState, data: any[]) {
+        SET_ROUTE(state: RoutesState, data: RouteRecord[]) {
             state.routes = data;
         },
-        SET_MENU(state: RoutesState, data: any[]) {
+        SET_MENU(state: RoutesState, data: RouteRecord[]) {
             state.menus = data;
         },
     },
@@ -45,24 +45,22 @@ export default routes;
 
 /* =========== helps ============= */
 //
-const hasPermission = (roles: string[], route: any) => {
-    if (route.meta && route.meta.role) {
-        return roles.some((role: string) => route.meta.role.indexOf(role) >= 0);
+const hasPermission = (roles: string[], route: RouteRecord) => {
+    const routeRoles = route.meta?.role;
+    if (routeRoles?.length) {
+        return roles.some((role: string) => routeRoles.indexOf(role) >= 0);
     }
     return true;
 };
 
 // 根据角色清洗路由表
-const cleanRotes = (routes: any, roles: string[]) => {
-    const accessRoutes = R.filter((v: any) => {
+const cleanRotes = (routes: RouteRecord[], roles: string[]) => {
+    const accessRoutes = R.filter((v: RouteRecord) => {
         if (roles && roles.indexOf('admin') >= 0) return true;
         if (hasPermission(roles, v)) {
             if (v.children && v.children.length > 0) {
-                v.children = R.filter((child: any) => {
-                    if (hasPermission(roles, child)) {
-                        return child;
-                    }
-                    return false;
+                v.children = R.filter((child: RouteRecord) => {
+                    return hasPermission(roles, child);
                 }, v.children);
                 // 解决子菜单只有一个的情况
                 if (v.children && v.children.length === 1) {
@@ -70,22 +68,23 @@ const cleanRotes = (routes: any, roles: string[]) => {
                     v.children = [];
                 }
             }
-            return v;
+            return true;
         }
+        return false;
     }, routes);
     return accessRoutes;
 };
 
 // 生成菜单
-const generateMenu = (routes: any) => {
-    const menus = R.filter((o: any) => {
+const generateMenu = (routes: RouteRecord[]) => {
+    const menus = R.filter((o: RouteRecord) => {
         if (o.meta && o.meta.hidden) {
             return false;
         }
         if (o.children && o.children.length) {
             o.children = generateMenu(o.children);
         }
-        return o;
+        return true;
     }, routes);
     return menus;
 };

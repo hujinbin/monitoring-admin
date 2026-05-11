@@ -104,7 +104,11 @@ export default defineConfig({
     },
     server: {
         proxy: {
-            '/api': 'http://ops.ydctml.top',
+            '/api': {
+                target: 'https://monitor.leheavengame.com',
+                changeOrigin: true,
+                secure: false,
+            },
         },
     },
 });

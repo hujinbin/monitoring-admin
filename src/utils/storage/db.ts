@@ -52,13 +52,16 @@ interface StorageSaveFormat {
 
 // 判断浏览器支持情况，不支持抛出错误
 class CustomStorage {
-    private readStorage: Storage;
-    private config: StorageBootStrapConfig;
-    private usage: number; // 已用存储空间
-    private quota: number; // 存储总量，3M左右
+    private readStorage!: Storage;
+    private config: StorageBootStrapConfig = {
+        mode: 'local',
+        timeout: Number.MAX_SAFE_INTEGER,
+    };
+    private usage = 0; // 已用存储空间
+    private quota = Number.MAX_SAFE_INTEGER; // 存储总量，3M左右
 
     constructor() {
-        if (!window) {
+        if (typeof window === 'undefined') {
             throw new Error('当前环境非浏览器，无法消费全局window实例。');
         }
         if (!window.localStorage) {
@@ -131,7 +134,7 @@ class CustomStorage {
      * @param key 设置当前存储key
      * @param value 设置当前存储value
      */
-    setItem(key: string, value) {
+    setItem(key: string, value: unknown) {
         if (hasStringify(value)) {
             const saveData: StorageSaveFormat = {
                 timestamp: new Date().getTime(),
@@ -150,7 +153,11 @@ class CustomStorage {
      * @returns 存储数据
      */
     getItem<T = any>(key: string): T | null {
-        const content: StorageSaveFormat | null = JSON.parse(this.readStorage.getItem(key));
+        const rawContent = this.readStorage.getItem(key);
+        if (!rawContent) {
+            return null;
+        }
+        const content = JSON.parse(rawContent) as StorageSaveFormat | null;
         // ocalStorage如果不是主动清除，存储数据是不会过期的
         // 获取时间的时候，会进行一个简单的判断，当前时间 - 存储时间 >= 过期时间
         if (content?.timestamp && new Date().getTime() - content.timestamp >= this.config.timeout) {
@@ -207,8 +214,12 @@ class CustomStorage {
             data: StorageSaveFormat;
         }> = [];
         keys.forEach((name) => {
-            const item = this.getItem(name);
-            if (item.timestamp) {
+            const rawContent = this.readStorage.getItem(name);
+            if (!rawContent) {
+                return;
+            }
+            const item = JSON.parse(rawContent) as StorageSaveFormat | null;
+            if (item?.timestamp) {
                 db.push({
                     key: name,
                     data: item,

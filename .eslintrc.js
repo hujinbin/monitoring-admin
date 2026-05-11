@@ -312,7 +312,7 @@ module.exports = defineConfig({
         'key-spacing': 2, // 强制在对象字面量的属性中键和值之间使用一致的间距
         'keyword-spacing': 2, // 强制在关键字前后使用一致的空格
         // 'line-comment-position': 0,              // 强制行注释的位置
-        'linebreak-style': 2, // 强制使用一致的换行风格
+        'linebreak-style': 0, // 跨平台开发时不强制换行风格
         'lines-around-comment': [
             // 要求在注释周围有空行
             2,

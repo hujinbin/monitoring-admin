@@ -27,8 +27,11 @@ import { defineComponent, computed } from 'vue';
 import { useStore } from 'store/index';
 import Breadcrumb from './breadcrumb.vue';
 import { UserOutlined } from '@ant-design/icons-vue';
-import type { MenuProps } from 'ant-design-vue';
 import { useRouter } from 'vue-router';
+
+interface MenuClickEvent {
+  key: string;
+}
 
 export default defineComponent({
     components: {
@@ -38,13 +41,13 @@ export default defineComponent({
     setup() {
         const store = useStore();
         const isCollapse = computed(() => store.state.settings.isCollapse);
-        let router = useRouter();
+        const router = useRouter();
         const toggleCollapse = () => {
             store.commit('TOGGLE_COLLAPSE');
             console.log('isCollapse...', isCollapse.value);
         };
 
-        const handleMenuClick: MenuProps['onClick'] = e => {
+        const handleMenuClick = (e: MenuClickEvent) => {
             const key = e.key;
             switch (key) {
                 case 'logOut':

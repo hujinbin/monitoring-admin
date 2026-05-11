@@ -12,42 +12,45 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref } from 'vue';
+import { computed } from 'vue';
 import { useStore } from 'store/index';
+import type { RouteRecord } from 'store/interface';
+
+interface BreadcrumbItem {
+  name: string;
+  title: string;
+}
 
 const store = useStore();
-const menus = computed(() => store.state.routes.menus);
-const breadcrumbList = computed(() => {
-    let list = store.state.settings.breadcrumbList;
-    console.log('list', list);
-    // if (!list?.length) {
-    //   list = (localStorage.getItem("breadcrumbList") || "").split(",");
-    // }
-    return list;
-});
+const menus = computed<RouteRecord[]>(() => store.state.routes.menus);
+const breadcrumbList = computed<string[]>(() => store.state.settings.breadcrumbList || []);
 
-console.log(menus.value);
-console.log('breadcrumbList', breadcrumbList.value);
-
-const filterBreadcrumb = (menus, path, result = []) => {
-    if (!(menus?.length && path?.length)) {
-        return [];
+const filterBreadcrumb = (
+  menuList: RouteRecord[],
+  path: string[],
+  result: BreadcrumbItem[] = []
+): BreadcrumbItem[] => {
+  if (!(menuList?.length && path?.length)) {
+    return result;
     }
-    let node = path.shift();
+  const [node, ...restPath] = path;
     if (node) {
-        let item = menus.find(o => o.name === node);
-        result.push({ name: item.name, title: item.meta.title });
+    const item = menuList.find(menu => menu.name === node);
+    if (!item?.name || !item.meta?.title) {
+      return result;
+    }
+    result.push({ name: item.name, title: item.meta.title });
         if (item?.children) {
-            return filterBreadcrumb(item.children, path, result);
+      return filterBreadcrumb(item.children, restPath, result);
         }
         return result;
     }
+  return result;
 };
 
-let breadcrumbMenu = ref([]);
-breadcrumbMenu = filterBreadcrumb(menus.value, breadcrumbList.value);
-
-console.log(breadcrumbMenu);
+const breadcrumbMenu = computed<BreadcrumbItem[]>(() =>
+  filterBreadcrumb(menus.value, [...breadcrumbList.value])
+);
 </script>
 
 <style></style>
